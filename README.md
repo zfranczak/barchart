@@ -2,7 +2,7 @@
 
 Fulfill the below user stories and get all of the tests to pass. Use whichever libraries or APIs you need. Give it your own personal style.
 
-You can use HTML, JavaScript, CSS, and the D3 svg-based visualization library. The tests require axes to be generated using the D3 axis property,
+✔️ You can use HTML, JavaScript, CSS, and the D3 svg-based visualization library. The tests require axes to be generated using the D3 axis property,
 which automatically generates ticks along the axis. These ticks are required for passing the D3 tests because their positions are used to determine
 alignment of graphed elements. You will find information about generating axes at https://d3js.org/d3-axis. Required DOM elements are queried on the
 moment of each test. If you use a frontend framework (like Vue for example), the test results may be inaccurate for dynamic content. We hope to
@@ -16,7 +16,7 @@ accommodate them eventually, but these frameworks are not currently supported fo
 
 ### User Story #4: Both axes should contain multiple tick labels, each with a corresponding class="tick".
 
-### User Story #5: My chart should have a rect element for each data point with a corresponding class="bar" displaying the data.
+### ✔️ User Story #5: My chart should have a rect element for each data point with a corresponding class="bar" displaying the data.
 
 ### User Story #6: Each .bar should have the properties data-date and data-gdp containing date and GDP values.
 
@@ -24,7 +24,7 @@ accommodate them eventually, but these frameworks are not currently supported fo
 
 ### User Story #8: The .bar elements' data-gdp properties should match the order of the provided data.
 
-### User Story #9: Each .bar element's height should accurately represent the data's corresponding GDP.
+### ✔️ User Story #9: Each .bar element's height should accurately represent the data's corresponding GDP.
 
 ### User Story #10: The data-date attribute and its corresponding .bar element should align with the corresponding value on the x-axis.
 
