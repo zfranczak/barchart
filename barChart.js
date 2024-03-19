@@ -51,9 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .attr('x', (d, i) => xScale(new Date(d[0])))
         .attr('y', (d, i) => yScale(d[1]))
         .attr('width', w / dataset.length)
-        .attr('height', (d, i) => h - yScale(d[1]))
+        .attr('height', (d, i) => h - padding - yScale(d[1]))
         .attr('fill', 'red')
-        .attr('class', 'bar');
+        .attr('class', 'bar')
+        .append('title')
+        .text((d) => d[1]);
 
       // Add x-axis
       svg
