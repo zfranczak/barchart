@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const w = 1000;
       const h = 500;
+      const padding = 50;
 
       // Create an SVG element
       const svg = d3
@@ -16,6 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
         .attr('width', w)
         .attr('height', h);
 
+      // Add title to the chart
+      svg
+        .append('text')
+        .attr('id', 'title')
+        .attr('x', w / 2)
+        .attr('y', 30)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '24px')
+        .text(data.source_name);
+
       // Create a time scale for x-coordinate
       const xScale = d3
         .scaleTime()
@@ -23,13 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
           new Date(dataset[0][0]), // First date in the dataset
           new Date(dataset[dataset.length - 1][0]), // Last date in the dataset
         ])
-        .range([0, w]);
+        .range([padding, w - padding]);
 
       // Create a linear scale for y-coordinate
       const yScale = d3
         .scaleLinear()
         .domain([0, d3.max(dataset, (d) => d[1])])
-        .range([h, 0]);
+        .range([h - padding, padding]);
 
       // Create bars
       svg
@@ -41,15 +52,23 @@ document.addEventListener('DOMContentLoaded', () => {
         .attr('y', (d, i) => yScale(d[1]))
         .attr('width', w / dataset.length)
         .attr('height', (d, i) => h - yScale(d[1]))
-        .attr('fill', 'navy');
+        .attr('fill', 'red')
+        .attr('class', 'bar');
 
       // Add x-axis
       svg
         .append('g')
-        .attr('transform', `translate(0, ${h})`)
+        .attr('transform', `translate(0, ${h - padding})`)
+        .attr('id', 'x-axis')
+        .attr('class', 'tick')
         .call(d3.axisBottom(xScale));
 
       // Add y-axis
-      svg.append('g').call(d3.axisLeft(yScale));
+      svg
+        .append('g')
+        .attr('transform', `translate(${padding}, 0)`)
+        .attr('id', 'y-axis')
+        .attr('class', 'tick')
+        .call(d3.axisLeft(yScale));
     });
 });
