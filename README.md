@@ -8,13 +8,13 @@ alignment of graphed elements. You will find information about generating axes a
 moment of each test. If you use a frontend framework (like Vue for example), the test results may be inaccurate for dynamic content. We hope to
 accommodate them eventually, but these frameworks are not currently supported for D3 projects.
 
-### User Story #1: My chart should have a title with a corresponding id="title".
+### ✔️ User Story #1: My chart should have a title with a corresponding id="title".
 
-### User Story #2: My chart should have a g element x-axis with a corresponding id="x-axis".
+### ✔️ User Story #2: My chart should have a g element x-axis with a corresponding id="x-axis".
 
-### User Story #3: My chart should have a g element y-axis with a corresponding id="y-axis".
+### ✔️ User Story #3: My chart should have a g element y-axis with a corresponding id="y-axis".
 
-### User Story #4: Both axes should contain multiple tick labels, each with a corresponding class="tick".
+### ✔️ User Story #4: Both axes should contain multiple tick labels, each with a corresponding class="tick".
 
 ### ✔️ User Story #5: My chart should have a rect element for each data point with a corresponding class="bar" displaying the data.
 
