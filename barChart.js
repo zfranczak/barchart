@@ -6,26 +6,42 @@ document.addEventListener('DOMContentLoaded', () => {
     .then((data) => {
       const dataset = data.data;
 
-      const w = 1000;
+      const w = 920;
       const h = 500;
       const padding = 50;
+      const barWidth = (w - 2 * padding) / dataset.length;
 
       // Create an SVG element
       const svg = d3
-        .select('body')
+        .select('.chart')
         .append('svg')
         .attr('width', w)
         .attr('height', h);
 
-      // Add title to the chart
-      svg
-        .append('text')
-        .attr('id', 'title')
-        .attr('x', w / 2)
-        .attr('y', 30)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '24px')
-        .text(data.source_name);
+      // Define tooltip
+      const tooltip = d3
+        .select('.chart')
+        .append('div')
+        .attr('id', 'tooltip')
+        .style('opacity', 0);
+
+      let years = dataset.map(function (dataPoint) {
+        let quarter;
+        let year = dataPoint[0].substring(0, 4);
+        let q = dataPoint[0].substring(5, 7);
+
+        if (q === '01') {
+          quarter = 'Q1';
+        } else if (q === '04') {
+          quarter = 'Q2';
+        } else if (q === '07') {
+          quarter = 'Q3';
+        } else if (q === '10') {
+          quarter = 'Q4';
+        }
+
+        return year + ' ' + quarter;
+      });
 
       // Create a time scale for x-coordinate
       const xScale = d3
@@ -48,14 +64,36 @@ document.addEventListener('DOMContentLoaded', () => {
         .data(dataset)
         .enter()
         .append('rect')
+        .attr('data-date', (d) => d[0])
+        .attr('data-gdp', (d) => d[1])
         .attr('x', (d, i) => xScale(new Date(d[0])))
-        .attr('y', (d, i) => yScale(d[1]))
+        .attr('y', (d) => yScale(d[1]))
         .attr('width', w / dataset.length)
-        .attr('height', (d, i) => h - padding - yScale(d[1]))
-        .attr('fill', 'red')
+        .attr('height', (d) => h - padding - yScale(d[1]))
+        .attr('fill', '#16d569')
         .attr('class', 'bar')
-        .append('title')
-        .text((d) => d[1]);
+        .attr('index', (d, i) => i) // Add index attribute
+        .on('mouseover', function (event, d) {
+          var i = this.getAttribute('index');
+
+          tooltip.transition().duration(200).style('opacity', 0.9);
+
+          tooltip
+            .html(
+              years[i] +
+                '<br>' +
+                '$' +
+                d[1].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') +
+                ' Billion'
+            )
+            .attr('data-date', d[0])
+            .style('left', i * barWidth + 30 + 'px')
+            .style('top', h - 100 + 'px')
+            .style('transform', 'translateX(60px)');
+        })
+        .on('mouseout', function () {
+          tooltip.transition().duration(200).style('opacity', 0);
+        });
 
       // Add x-axis
       svg
@@ -72,5 +110,26 @@ document.addEventListener('DOMContentLoaded', () => {
         .attr('id', 'y-axis')
         .attr('class', 'tick')
         .call(d3.axisLeft(yScale));
+
+      // Add title to the chart
+      svg
+        .append('text')
+        .attr('id', 'title')
+        .attr('x', w / 2)
+        .attr('y', 30)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '24px')
+        .text(data.source_name);
+
+      // Add URL to the chart
+      svg
+        .append('text')
+        .attr('id', 'data-url')
+        .attr('x', w / 2)
+        .attr('y', h)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .text(data.display_url);
+      // Add Axes Names
     });
 });
